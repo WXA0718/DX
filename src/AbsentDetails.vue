@@ -5,21 +5,16 @@
 		
 		<div class="form-row">
 				<label class="label">公欠日</label>
-				<input type="date" class="input" />
+				<label class="input_label"></label>
 				<label class="label">提出日</label>
-				<input type="date" class="input" />
+				<label class="input_label"></label>
 		</div>
 
 		<div class="form-row">
 			<label class="label">活動内容</label>
 			<div class="radio-group">
-				<label><input type="radio" name="activity" value="合同説明会" /><span>合同説明会</span></label>
-				<label><input type="radio" name="activity" value="説明会" /><span>説明会</span></label>
-				<label><input type="radio" name="activity" value="試験" /><span>試験</span></label>
-				<label><input type="radio" name="activity" value="研修" /><span>研修</span></label>
 				<label_other>
-					<input type="radio" name="activity" value="その他" /><span>その他</span>
-					<input type="text" class="input_other"/>
+					<label class="input_other_label"></label>
 				</label_other>
 			</div>
 		</div>
@@ -27,48 +22,56 @@
 
 		<div class="form-row">
 			<label class="label">会社名または主催者</label>
-			<input type="text" class="input_company" placeholder="会社名または主催者を入力" />
+			<label class="input_company_label"></label>
 		</div>
 
 		<div class="form-table">
 			<div class="form-row">
 				<label class="table-label">一限目</label>
-				<input type="text" class="input" placeholder="科目名" />
-				<input type="text" class="input" placeholder="担当教員" />
+				<label class="input_label">aa</label>
+				<label class="label"></label>
+				<label class="input_label">aa</label>
+				
 			</div>
 			<div class="form-row">
 				<label class="table-label">二限目</label>
-				<input type="text" class="input" placeholder="科目名" />
-				<input type="text" class="input" placeholder="担当教員" />
+				<label class="input_label">aa</label>
+				<label class="label"></label>
+				<label class="input_label">aa</label>
 			</div>
 			<div class="form-row">
 				<label class="table-label">三限目</label>
-				<input type="text" class="input" placeholder="科目名" />
-				<input type="text" class="input" placeholder="担当教員" />
+				<label class="input_label">aa</label>
+				<label class="label"></label>
+				<label class="input_label">aa</label>
 			</div>
 			<div class="form-row">
 				<label class="table-label">四限目</label>
-				<input type="text" class="input" placeholder="科目名" />
-				<input type="text" class="input" placeholder="担当教員" />
+				<label class="input_label">aa</label>
+				<label class="label"></label>
+				<label class="input_label">aa</label>
 			</div>
 		</div>
+		
 
 		<div class="button-container">
-			<button class="button">提出</button>
+			<button class="button" onclick="location.href='./DashboardPage.vue'">戻る</button>
 		</div>
 	</div>
-	<!-- <Footer></Footer> -->
+	<Footer></Footer> 
 </template>
 
 <script setup>
 import Header from "./components/AppHeader.vue";
-// import Footer from "./components/AppFooter.vue";
+import Footer from "./components/AppFooter.vue";
+
+//const currentPage = ref("login");
 </script>
 
 <style>
 .container {
 	background-color: #FFFFFF;
-	padding: 26px;
+	padding: 30px;
 }
 
 .title {
@@ -104,12 +107,17 @@ import Header from "./components/AppHeader.vue";
 	border-radius: 5px;
 }
 
-.input {
+.input_label {
 	width: 30%;
 }
+
 .input_other{
 	width: 607px;
 
+}
+
+.input_other_label,input_company_label{
+	width: 100%;
 }
 
 .radio-group {
