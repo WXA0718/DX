@@ -1,5 +1,5 @@
 import { createApp } from 'vue';
-import Login from './LoginPage.vue';
+import App from './App.vue';
+import router from '../src/router/indesx.js';
 
-const app = createApp(Login);
-app.mount('#app'); // 必要なHTML要素IDを指定
+createApp(App).use(router).mount('#app');
