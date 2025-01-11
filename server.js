@@ -2,11 +2,13 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mysql = require('mysql2');
 const bcrypt = require('bcrypt');
+const cors = require('cors');
 
 const { body, validationResult, param } = require('express-validator');
 
 const app = express();
 app.use(bodyParser.json());
+app.use(cors());
 
 app.get('/', (req, res) => {
   res.send('hello');
