@@ -9,6 +9,10 @@
         }})
       </p>
 
+      <div v-if="(user.role_id = 2)" class="error">
+        <button @click="goRequestPage">書類作成</button>
+      </div>
+
       <div v-if="errorMessage" class="error">
         {{ errorMessage }}
       </div>
@@ -86,6 +90,10 @@ const fetchRequests = async () => {
   } finally {
     loading.value = false;
   }
+};
+
+const goRequestPage = () => {
+  router.push(`/request-page?student_id=${user.id}`);
 };
 
 onMounted(() => {

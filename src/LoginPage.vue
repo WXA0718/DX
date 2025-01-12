@@ -57,11 +57,20 @@ const handleLogin = async () => {
 
     if (!response.ok) {
       const errorData = await response.json();
-      const errorMessages = errorData.errors.map((err) => err.msg).join('\n');
-      alert(`ログイン失敗:\n${errorMessages}`);
+
+      // エラーの形式に応じてメッセージを取得
+      if (errorData.errors && Array.isArray(errorData.errors)) {
+        const errorMessages = errorData.errors.map((err) => err.msg).join('\n');
+        alert(`ログイン失敗:\n${errorMessages}`);
+      } else if (errorData.message) {
+        alert(`ログイン失敗:\n${errorData.message}`);
+      } else {
+        alert('ログイン失敗: サーバーからの不明なエラーが返されました');
+      }
       return;
     }
 
+    // 成功時の処理
     const data = await response.json();
     alert('ログイン成功');
     console.log('ユーザーデータ:', data);
@@ -70,10 +79,14 @@ const handleLogin = async () => {
     localStorage.setItem('user', JSON.stringify(data.user));
 
     // ダッシュボードページに遷移
-    router.push('/dashboard-page');
+    if (router) {
+      router.push('/dashboard-page');
+    } else {
+      window.location.href = '/dashboard-page';
+    }
   } catch (error) {
     console.error('ログイン中にエラーが発生しました:', error);
-    alert('ログイン中にエラーが発生しました');
+    alert('ログイン中にエラーが発生しました: ' + error.message);
   }
 };
 
