@@ -1,71 +1,170 @@
 <template>
-  <div>
-    <Header />
-    <div class="container">
-      <h2 class="title">申請フォーム</h2>
-      <form @submit.prevent="submitRequest">
-        <div class="field">
-          <label for="absence_date">公欠日</label>
-          <input
-            id="absence_date"
-            v-model="form.absence_date"
-            type="date"
-            class="input"
-          />
-        </div>
+  <Header></Header>
+  <div class="container">
+    <h1 class="title">申請フォーム</h1>
 
-        <div class="field">
-          <label for="activity">活動内容</label>
-          <input
-            id="activity"
-            v-model="form.activity"
-            type="text"
-            class="input"
-            placeholder="活動内容を入力"
-          />
-        </div>
-
-        <div class="field">
-          <label for="company_name">会社名または主催者</label>
-          <input
-            id="company_name"
-            v-model="form.company_name"
-            type="text"
-            class="input"
-            placeholder="会社名または主催者を入力"
-          />
-        </div>
-
-        <div class="field">
-          <label>授業情報</label>
-          <div class="table">
-            <div
-              class="row"
-              v-for="(classInfo, index) in classInformation"
-              :key="index"
-            >
-              <input
-                v-model="form[classInfo.subjectName]"
-                type="text"
-                class="input small"
-                :placeholder="`${index + 1}限目 科目名`"
-              />
-              <input
-                v-model="form[classInfo.instructor]"
-                type="text"
-                class="input small"
-                :placeholder="`担当教員`"
-              />
-            </div>
-          </div>
-        </div>
-
-        <button type="submit" class="button">申請</button>
-      </form>
-      <button @click="goToDashboard" class="button back">戻る</button>
+    <div class="form-row">
+      <label class="label">公欠日</label>
+      <input type="date" class="input" v-model="form.absence_date" />
+      <label class="label">提出日</label>
+      <input
+        type="date"
+        class="input"
+        v-model="date.submission_date"
+        disabled
+      />
     </div>
-    <Footer />
+
+    <div class="form-row">
+      <label class="label">活動内容</label>
+      <label>
+        <input
+          type="radio"
+          name="activity"
+          value="合同説明会"
+          v-model="form.activity"
+        />
+        <span class="radio-text">合同説明会</span>
+      </label>
+      <label>
+        <input
+          type="radio"
+          name="activity"
+          value="説明会"
+          v-model="form.activity"
+        />
+        <span class="radio-text">説明会</span>
+      </label>
+      <label>
+        <input
+          type="radio"
+          name="activity"
+          value="試験"
+          v-model="form.activity"
+        />
+        <span class="radio-text">試験</span>
+      </label>
+      <label>
+        <input
+          type="radio"
+          name="activity"
+          value="研修"
+          v-model="form.activity"
+        />
+        <span class="radio-text">研修</span>
+      </label>
+      <label>
+        <input
+          type="radio"
+          name="activity"
+          value="その他"
+          v-model="form.activity"
+        />
+        <span class="radio-text">その他</span>
+      </label>
+      <input
+        v-if="form.activity === 'その他'"
+        type="text"
+        class="input"
+        v-model="form.comment"
+        placeholder="その他の場合、詳細を入力"
+      />
+    </div>
+
+    <div class="form-row">
+      <label class="label">会社名または主催者</label>
+      <input
+        type="text"
+        class="input"
+        v-model="form.company_name"
+        placeholder="会社名または主催者を入力"
+      />
+    </div>
+
+    <div class="form-row">
+      <label class="label">一限目</label>
+      <select class="input" v-model="form.time_class_information_subject_name">
+        <option disabled value="">科目を選択</option>
+        <option v-for="subject in subjects" :key="subject">
+          {{ subject }}
+        </option>
+      </select>
+      <select class="input" v-model="form.time_class_information_instructor">
+        <option disabled value="">担当教員を選択</option>
+        <option v-for="instructor in instructors" :key="instructor">
+          {{ instructor }}
+        </option>
+      </select>
+    </div>
+    <div class="form-row">
+      <label class="label">二限目</label>
+      <select
+        class="input"
+        v-model="form.two_time_class_information_subject_name"
+      >
+        <option disabled value="">科目を選択</option>
+        <option v-for="subject in subjects" :key="subject">
+          {{ subject }}
+        </option>
+      </select>
+      <select
+        class="input"
+        v-model="form.two_time_class_information_instructor"
+      >
+        <option disabled value="">担当教員を選択</option>
+        <option v-for="instructor in instructors" :key="instructor">
+          {{ instructor }}
+        </option>
+      </select>
+    </div>
+    <div class="form-row">
+      <label class="label">三限目</label>
+      <select
+        class="input"
+        v-model="form.three_time_class_information_subject_name"
+      >
+        <option disabled value="">科目を選択</option>
+        <option v-for="subject in subjects" :key="subject">
+          {{ subject }}
+        </option>
+      </select>
+      <select
+        class="input"
+        v-model="form.three_time_class_information_instructor"
+      >
+        <option disabled value="">担当教員を選択</option>
+        <option v-for="instructor in instructors" :key="instructor">
+          {{ instructor }}
+        </option>
+      </select>
+    </div>
+    <div class="form-row">
+      <label class="label">四限目</label>
+      <select
+        class="input"
+        v-model="form.four_time_class_information_subject_name"
+      >
+        <option disabled value="">科目を選択</option>
+        <option v-for="subject in subjects" :key="subject">
+          {{ subject }}
+        </option>
+      </select>
+      <select
+        class="input"
+        v-model="form.four_time_class_information_instructor"
+      >
+        <option disabled value="">担当教員を選択</option>
+        <option v-for="instructor in instructors" :key="instructor">
+          {{ instructor }}
+        </option>
+      </select>
+    </div>
+
+    <div class="button-container">
+      <button class="button" @click="submitRequest">提出</button>
+    </div>
   </div>
+  <Footer></Footer>
 </template>
 
 <script setup>
@@ -77,6 +176,9 @@ import { useRoute } from 'vue-router';
 
 const router = useRouter();
 const route = useRoute();
+const subjects = ref(['数学', '英語', '物理', '化学']);
+const instructors = ref(['山田太郎', '佐藤花子', '田中一郎', '高橋次郎']);
+
 const form = ref({
   student_id: '',
   absence_date: '',
@@ -90,6 +192,10 @@ const form = ref({
   three_time_class_information_instructor: '',
   four_time_class_information_subject_name: '',
   four_time_class_information_instructor: '',
+  comment: '',
+});
+const date = ref({
+  submission_date: '',
 });
 
 // student_id をルートから取得し、フォームに設定
@@ -101,25 +207,9 @@ onMounted(() => {
   } else {
     console.error('student_id が見つかりません');
   }
+
+  date.value.submission_date = new Date().toISOString().slice(0, 10);
 });
-const classInformation = [
-  {
-    subjectName: 'time_class_information_subject_name',
-    instructor: 'time_class_information_instructor',
-  },
-  {
-    subjectName: 'two_time_class_information_subject_name',
-    instructor: 'two_time_class_information_instructor',
-  },
-  {
-    subjectName: 'three_time_class_information_subject_name',
-    instructor: 'three_time_class_information_instructor',
-  },
-  {
-    subjectName: 'four_time_class_information_subject_name',
-    instructor: 'four_time_class_information_instructor',
-  },
-];
 
 const submitRequest = async () => {
   try {
@@ -143,77 +233,108 @@ const submitRequest = async () => {
   }
 };
 
-const goToDashboard = () => {
-  router.push('/dashboard-page');
-};
+// const goToDashboard = () => {
+//   router.push('/dashboard-page');
+// };
 </script>
 
 <style scoped>
 .container {
-  max-width: 600px;
-  margin: auto;
-  padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  padding: 26px;
 }
 
 .title {
   text-align: center;
-  font-size: 1.5em;
-  margin-bottom: 20px;
+  font-size: 24px;
 }
 
-.field {
+.form-row {
+  display: flex;
+  align-items: center;
   margin-bottom: 15px;
 }
 
 .label {
-  font-weight: bold;
+  width: 150px;
+  text-align: right;
+  font-size: 16px;
 }
 
 .input {
-  width: 100%;
+  flex: 1;
   padding: 8px;
-  font-size: 14px;
+  font-size: 16px;
   border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: 5px;
+  margin-left: 10px;
 }
 
-.input.small {
-  width: 48%;
-  display: inline-block;
+.input:focus {
+  background-color: #e8f0fe;
+  outline: none;
+  border-color: #4a90e2;
 }
 
-.table {
-  display: flex;
-  flex-direction: column;
+.input.error {
+  background-color: #ffe8e8;
+  border-color: #ff0000;
 }
 
-.row {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 8px;
+.button-container {
+  text-align: center;
+  margin-top: 20px;
 }
 
 .button {
+  background-color: #4a90e2;
+  font-size: 18px;
+  color: #ffffff;
+  height: 50px;
+  width: 60%;
+  margin: 10px auto;
   display: block;
-  width: 100%;
-  padding: 10px;
-  font-size: 16px;
-  color: #fff;
-  background-color: #4caf50;
   border: none;
-  border-radius: 4px;
+  border-radius: 5px;
   cursor: pointer;
-}
-
-.button.back {
-  background-color: #2196f3;
-  margin-top: 10px;
+  box-shadow: 2px 2px 5px #aaa;
 }
 
 .button:hover {
-  opacity: 0.9;
+  background-color: #357abd;
+}
+
+.radio {
+  margin-right: 12px;
+}
+
+.radio-label {
+  display: block;
+}
+
+input[type='radio'] {
+  display: none;
+}
+
+.radio-text:before {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 6px;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 50%;
+  padding: 2px;
+  background-clip: content-box;
+}
+
+input[type='radio']:not(:checked) + .radio-text:before {
+  border-color: #72767b;
+}
+
+input[type='radio']:checked + .radio-text:before {
+  border-color: #4a90e2;
+  background-color: #4a90e2;
 }
 </style>
