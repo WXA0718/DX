@@ -16,8 +16,8 @@ app.get('/', (req, res) => {
 const db = mysql.createConnection({
   host: '127.0.0.1', // データベースホスト
   user: 'root', // MySQLユーザー名
-  password: 'g022c1048', // MySQLパスワード
-  database: 'absence_requests2', // データベース名
+  password: 'Maiyuzu146', // MySQLパスワード
+  database: 'absence_requests', // データベース名
 });
 
 db.connect((err) => {

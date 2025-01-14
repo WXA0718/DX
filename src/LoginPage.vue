@@ -1,13 +1,14 @@
 <template>
   <Header />
   <div class="container">
-    <form>
+    <form @submit.prevent="handleLogin">
       <div class="flex">
         <label for="email">メールアドレス</label>
         <input
           id="email"
           type="text"
           class="input"
+          v-model="email"
           placeholder="メールアドレスを入力"
         />
       </div>
@@ -18,55 +19,102 @@
           id="password"
           type="password"
           class="input"
+          v-model="password"
           placeholder="パスワードを入力"
         />
       </div>
 
       <!-- ボタン -->
-      <button @click="CreateAccountPage" class="button">新規登録</button>
-      <button @click="Dashboard" class="button">ログイン</button>
+      <button type="submit" class="button">ログイン</button>
+      <button @click="goToCreateAccount" class="button">新規登録</button>
     </form>
   </div>
   <Footer />
 </template>
 
 <script setup>
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 import Header from './components/AppHeader.vue';
 import Footer from './components/AppFooter.vue';
-import Dashboard from './DashboardPage.vue';
-import CreateAccountPage from './CreateAccountPage.vue';
+const email = ref('');
+const password = ref('');
+const router = useRouter();
+const handleLogin = async () => {
+  try {
+    const response = await fetch('http://localhost:3000/auth/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: email.value,
+        password: password.value,
+      }),
+    });
+    if (!response.ok) {
+      const errorData = await response.json();
+      const errorMessages = errorData.errors.map((err) => err.msg).join('\n');
+      alert(`ログイン失敗:\n${errorMessages}`);
+      // エラーの形式に応じてメッセージを取得
+      if (errorData.errors && Array.isArray(errorData.errors)) {
+        const errorMessages = errorData.errors.map((err) => err.msg).join('\n');
+        alert(`ログイン失敗:\n${errorMessages}`);
+      } else if (errorData.message) {
+        alert(`ログイン失敗:\n${errorData.message}`);
+      } else {
+        alert('ログイン失敗: サーバーからの不明なエラーが返されました');
+      }
+      return;
+    }
+    // 成功時の処理
+    const data = await response.json();
+    alert('ログイン成功');
+    console.log('ユーザーデータ:', data);
+    // ユーザー情報をローカルストレージに保存
+    localStorage.setItem('user', JSON.stringify(data.user));
+    // ダッシュボードページに遷移
+    router.push('/dashboard-page');
+    if (router) {
+      router.push('/dashboard-page');
+    } else {
+      window.location.href = '/dashboard-page';
+    }
+  } catch (error) {
+    console.error('ログイン中にエラーが発生しました:', error);
+    alert('ログイン中にエラーが発生しました');
+    alert('ログイン中にエラーが発生しました: ' + error.message);
+  }
+};
+const goToCreateAccount = () => {
+  router.push('/create-account');
+};
 </script>
 
 <style>
-/* 全体の背景色を白に設定 */
+/* スタイルはそのまま */
 body {
   background-color: #ffffff;
   margin: 0;
   padding: 0;
 }
-
-/* コンテナ全体 */
 .container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 100px 20px; /* 上下の余白を調整 */
+  padding: 100px 20px;
 }
-
-/* 入力フォームのレイアウト */
 .flex {
   display: flex;
   align-items: center;
   margin-bottom: 15px;
 }
-
 label {
   width: 120px;
   text-align: right;
   margin-right: 10px;
 }
-
 .input {
   font-size: 16px;
   width: 300px;
@@ -76,8 +124,6 @@ label {
   border: 1px solid #ccc;
   border-radius: 5px;
 }
-
-/* ボタンのスタイル */
 .button {
   background-color: #4a90e2;
   font-size: 18px;
@@ -90,7 +136,6 @@ label {
   align-items: center;
   box-shadow: 2px 2px 5px #aaa;
 }
-
 .button:hover {
   background-color: #357abd;
 }
