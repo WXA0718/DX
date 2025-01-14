@@ -1,15 +1,39 @@
-/*import { createRouter, createWebHistory } from 'vue-router';
-import DashboardPage from '../pages/DashboardPage.vue';
-import AbsentDetails from '../pages/AbsentDetails.vue';
+import { createRouter, createWebHistory } from 'vue-router';
 
+// コンポーネントをインポート
+import LoginPage from '../LoginPage.vue';
+import CreateAccountPage from '../CreateAccountPage.vue';
+import DashboardPage from '../DashboardPage.vue';
+import RequeestPage from '../RequestPage.vue';
+
+// ルートの設定
 const routes = [
-    { path: '/', component: AbsentDetails },
-    { path: '/DashboardPage', component: DashboardPage },
+    {
+    path: '/',
+    name: 'Login',
+    component: LoginPage,
+    },
+    {
+    path: '/create-account',
+    name: 'CreateAccount',
+    component: CreateAccountPage,
+    },
+    {
+    path: '/dashboard-page',
+    name: 'Dashboard',
+    component: DashboardPage,
+    },
+    {
+    path: '/request-page',
+    name: 'request',
+    component: RequeestPage,
+    },
 ];
 
+// ルーターの作成
 const router = createRouter({
     history: createWebHistory(),
-    routes
+    routes,
 });
 
-export default router;*/
+export default router;
