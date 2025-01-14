@@ -95,7 +95,7 @@ const goToCreateAccount = () => {
 };
 </script>
 
-<style>
+<style scoped>
 /* スタイルはそのまま */
 body {
   background-color: #ffffff;
