@@ -5,6 +5,7 @@ import LoginPage from '../LoginPage.vue';
 import CreateAccountPage from '../CreateAccountPage.vue';
 import DashboardPage from '../DashboardPage.vue';
 import RequeestPage from '../RequestPage.vue';
+import AbsentDetails from '../AbsentDetails.vue';
 
 // ルートの設定
 const routes = [
@@ -27,6 +28,11 @@ const routes = [
     path: '/request-page',
     name: 'request',
     component: RequeestPage,
+  },
+  {
+    path: '/details-page',
+    name: 'details',
+    component: AbsentDetails,
   },
 ];
 

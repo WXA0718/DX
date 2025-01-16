@@ -386,6 +386,7 @@ app.get(
             activity,
             company_name,
             status,
+            created_at,
             time_class_information_subject_name AS period1_subject,
             time_class_information_instructor AS period1_instructor,
             two_time_class_information_subject_name AS period2_subject,
@@ -393,7 +394,8 @@ app.get(
             three_time_class_information_subject_name AS period3_subject,
             three_time_class_information_instructor AS period3_instructor,
             four_time_class_information_subject_name AS period4_subject,
-            four_time_class_information_instructor AS period4_instructor
+            four_time_class_information_instructor AS period4_instructor,
+            comment
         FROM registration_details
         WHERE
             id = ? AND student_id = ?
